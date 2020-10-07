@@ -4,6 +4,7 @@
       <div class="top part">
         <div class="robot-name">
           {{ selectedRobot.head.title }}
+          <span v-if="selectedRobot.head.onSale" class="sale">Sale!</span>
         </div>
         <div class="robot-name"></div>
           <img :src="selectedRobot.head.src" title="head"/>
@@ -248,5 +249,8 @@ export default defineComponent({
   top: -25px;
   text-align: center;
   width: 100%;
+}
+.sale{
+  color: red;
 }
 </style>
