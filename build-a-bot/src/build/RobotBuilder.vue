@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <!-- <button @click="addToCart" class="add-to-cart">Add to Cart</button> -->
+    <button @click="addToCart" class="add-to-cart">Add to Cart</button>
     <div class="top-row">
       <div class="top part">
         <div class="robot-name">
@@ -37,12 +37,30 @@
         <button @click="selectNextBase" class="next-selector">&#9658;</button>
       </div>
     </div>
+    <div>
+      <h1>Cart</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Robot</th>
+            <th class="cost">
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(cost, index) in cart" :key="index">
+            <td>{{ cost }}</td>
+            <td class="cost">{{cost}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import {
-  defineComponent, computed, ref,
+  defineComponent, computed, ref, Ref,
 } from 'vue';
 import availableParts from '@/data/parts';
 
@@ -55,7 +73,7 @@ export default defineComponent({
     const selectedBaseIndex = ref(0);
     const selectedLeftArmIndex = ref(0);
     const selectedRightArmIndex = ref(0);
-    // const cart = ref([]);
+    const cart: Ref<object[]> = ref([]);
 
     // TODO: How is reactie thingy any bettter when computed does the job anyway?
     // const selectedRobot: any = reactive({
@@ -66,16 +84,13 @@ export default defineComponent({
     //   rightarm: computed(() => availableParts.arms[selectedRightArmIndex.value]),
     // });
 
-    const selectedRobot = computed(() => {
-      const r = {
-        head: availableParts.heads[selectedHeadIndex.value],
-        torso: availableParts.torsos[selectedTorsoIndex.value],
-        base: availableParts.bases[selectedBaseIndex.value],
-        leftarm: availableParts.arms[selectedLeftArmIndex.value],
-        rightarm: availableParts.arms[selectedRightArmIndex.value],
-      };
-      return r;
-    });
+    const selectedRobot = computed(() => ({
+      head: availableParts.heads[selectedHeadIndex.value],
+      torso: availableParts.torsos[selectedTorsoIndex.value],
+      base: availableParts.bases[selectedBaseIndex.value],
+      leftarm: availableParts.arms[selectedLeftArmIndex.value],
+      rightarm: availableParts.arms[selectedRightArmIndex.value],
+    }));
 
     function selectNextHead() {
       selectedHeadIndex.value += 1;
@@ -147,12 +162,11 @@ export default defineComponent({
       }
     }
 
-    // function addToCart() {
-    //   const cost = selectedRobot.head.cost + selectedRobot.leftarm.cost +
-    //   selectedRobot.torso.cost
-    //    + selectedRobot.rightarm.cost + selectedRobot.base.cost;
-    //   console.log('pushed to cart');
-    // }
+    function addToCart() {
+      const r = selectedRobot.value;
+      const cost = r.head.cost + r.leftarm.cost + r.torso.cost + r.rightarm.cost + r.base.cost;
+      cart.value.push({ r, cost });
+    }
 
     return {
       selectNextHead,
@@ -171,6 +185,8 @@ export default defineComponent({
       selectPreviousRightArm,
       selectedRightArmIndex,
       selectedRobot,
+      addToCart,
+      cart,
     };
   },
 });
@@ -283,5 +299,13 @@ export default defineComponent({
   width: 220px;
   padding: 3px;
   font-size: 16px;
+}
+td, th {
+  text-align: left;
+  padding: 5px;
+  padding-right: 20px;
+}
+.cost {
+  text-align: right;
 }
 </style>
