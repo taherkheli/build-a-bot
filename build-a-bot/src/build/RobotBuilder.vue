@@ -3,39 +3,21 @@
     <button @click="addToCart" class="add-to-cart">Add to Cart</button>
     <div class="top-row">
       <div class="top part" :class="{'sale-border': selectedRobot.head.onSale}">
-        <div class="robot-name">
+        <!-- <div class="robot-name">
           {{ selectedRobot.head.title }}
           <span v-if="selectedRobot.head.onSale" class="sale">Sale!</span>
-        </div>
+        </div> -->
         <div class="robot-name"></div>
-          <img :src="selectedRobot.head.src" title="head"/>
-          <button @click="selectPreviousHead" class="prev-selector">&#9668;</button>
-          <button @click="selectNextHead" class="next-selector">&#9658;</button>
-      </div>
+          <part-selector/>
+        </div>
     </div>
     <div class="middle-row">
-      <div class="left part">
-        <img :src="selectedRobot.leftarm.src" title="left arm"/>
-        <button @click="selectPreviousLeftArm" class="prev-selector">&#9650;</button>
-        <button @click="selectNextLeftArm" class="next-selector">&#9660;</button>
-      </div>
-      <div class="center part">
-        <img :src="selectedRobot.torso.src" title="torso"/>
-        <button @click="selectPreviousTorso" class="prev-selector">&#9668;</button>
-        <button @click="selectNextTorso" class="next-selector">&#9658;</button>
-      </div>
-      <div class="right part">
-        <img :src="selectedRobot.rightarm.src" title="right arm"/>
-        <button @click="selectPreviousRightArm" class="prev-selector">&#9650;</button>
-        <button @click="selectNextRightArm" class="next-selector">&#9660;</button>
-      </div>
+      <part-selector/>
+      <part-selector/>
+      <part-selector/>
     </div>
     <div class="bottom-row">
-      <div class="bottom part">
-        <img :src="selectedRobot.base.src" title="base"/>
-        <button @click="selectPreviousBase" class="prev-selector">&#9668;</button>
-        <button @click="selectNextBase" class="next-selector">&#9658;</button>
-      </div>
+      <part-selector/>
     </div>
     <div>
       <h1>Cart</h1>
@@ -60,130 +42,37 @@
 
 <script lang="ts">
 import {
-  defineComponent, computed, ref, Ref,
+  defineComponent, ref, Ref,
 } from 'vue';
 import availableParts from '@/data/parts';
+import PartSelector from './PartSelector.vue';
 
 export default defineComponent({
+  name: 'RobotBuilder',
+  components: {
+    PartSelector,
+  },
   props: [],
   setup() {
     const parts = availableParts;
-    const selectedHeadIndex = ref(0);
-    const selectedTorsoIndex = ref(0);
-    const selectedBaseIndex = ref(0);
-    const selectedLeftArmIndex = ref(0);
-    const selectedRightArmIndex = ref(0);
     const cart: Ref<object[]> = ref([]);
 
-    // TODO: How is reactie thingy any bettter when computed does the job anyway?
-    // const selectedRobot: any = reactive({
-    //   head: computed(() => availableParts.heads[selectedHeadIndex.value]),
-    //   torso: computed(() => availableParts.torsos[selectedTorsoIndex.value]),
-    //   base: computed(() => availableParts.bases[selectedBaseIndex.value]),
-    //   leftarm: computed(() => availableParts.arms[selectedLeftArmIndex.value]),
-    //   rightarm: computed(() => availableParts.arms[selectedRightArmIndex.value]),
-    // });
-
-    const selectedRobot = computed(() => ({
-      head: availableParts.heads[selectedHeadIndex.value],
-      torso: availableParts.torsos[selectedTorsoIndex.value],
-      base: availableParts.bases[selectedBaseIndex.value],
-      leftarm: availableParts.arms[selectedLeftArmIndex.value],
-      rightarm: availableParts.arms[selectedRightArmIndex.value],
-    }));
-
-    function selectNextHead() {
-      selectedHeadIndex.value += 1;
-      if (selectedHeadIndex.value === parts.heads.length) {
-        selectedHeadIndex.value = 0;
-      }
-    }
-
-    function selectPreviousHead() {
-      selectedHeadIndex.value -= 1;
-      if (selectedHeadIndex.value < 0) {
-        selectedHeadIndex.value = parts.heads.length - 1;
-      }
-    }
-
-    function selectNextTorso() {
-      selectedTorsoIndex.value += 1;
-      if (selectedTorsoIndex.value === parts.torsos.length) {
-        selectedTorsoIndex.value = 0;
-      }
-    }
-
-    function selectPreviousTorso() {
-      selectedTorsoIndex.value -= 1;
-      if (selectedTorsoIndex.value < 0) {
-        selectedTorsoIndex.value = parts.torsos.length - 1;
-      }
-    }
-
-    function selectNextBase() {
-      selectedBaseIndex.value += 1;
-      if (selectedBaseIndex.value === parts.bases.length) {
-        selectedBaseIndex.value = 0;
-      }
-    }
-
-    function selectPreviousBase() {
-      selectedBaseIndex.value -= 1;
-      if (selectedBaseIndex.value < 0) {
-        selectedBaseIndex.value = parts.bases.length - 1;
-      }
-    }
-
-    function selectNextLeftArm() {
-      selectedLeftArmIndex.value += 1;
-      if (selectedLeftArmIndex.value === parts.arms.length) {
-        selectedLeftArmIndex.value = 0;
-      }
-    }
-
-    function selectPreviousLeftArm() {
-      selectedLeftArmIndex.value -= 1;
-      if (selectedLeftArmIndex.value < 0) {
-        selectedLeftArmIndex.value = parts.arms.length - 1;
-      }
-    }
-
-    function selectNextRightArm() {
-      selectedRightArmIndex.value += 1;
-      if (selectedRightArmIndex.value === parts.arms.length) {
-        selectedRightArmIndex.value = 0;
-      }
-    }
-
-    function selectPreviousRightArm() {
-      selectedRightArmIndex.value -= 1;
-      if (selectedRightArmIndex.value < 0) {
-        selectedRightArmIndex.value = parts.arms.length - 1;
-      }
-    }
+    const selectedRobot = {
+      head: {},
+      torso: {},
+      base: {},
+      leftarm: {},
+      rightarm: {},
+    };
 
     function addToCart() {
-      const r = selectedRobot.value;
-      const cost = r.head.cost + r.leftarm.cost + r.torso.cost + r.rightarm.cost + r.base.cost;
+      const r = selectedRobot;
+      // const cost = r.head.cost + r.leftarm.cost + r.torso.cost + r.rightarm.cost + r.base.cost;
+      const cost = 120;
       cart.value.push({ r, cost });
     }
 
     return {
-      selectNextHead,
-      selectPreviousHead,
-      selectedHeadIndex,
-      selectNextTorso,
-      selectPreviousTorso,
-      selectedTorsoIndex,
-      selectNextBase,
-      selectPreviousBase,
-      selectedBaseIndex,
-      selectNextLeftArm,
-      selectPreviousLeftArm,
-      selectedLeftArmIndex,
-      selectNextRightArm,
-      selectPreviousRightArm,
-      selectedRightArmIndex,
       selectedRobot,
       addToCart,
       cart,
