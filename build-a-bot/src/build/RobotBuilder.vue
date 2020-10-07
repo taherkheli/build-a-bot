@@ -48,9 +48,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(cost, index) in cart" :key="index">
-            <td>{{ cost }}</td>
-            <td class="cost">{{cost}}</td>
+          <tr v-for="(robot, index) in cart" :key="index">
+            <td>{{ robot.r.head.title }}</td>
+            <td class="cost">{{robot.cost}}</td>
           </tr>
         </tbody>
       </table>
