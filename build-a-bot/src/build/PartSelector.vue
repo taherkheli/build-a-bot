@@ -16,7 +16,11 @@ export default defineComponent({
       type: Array,
       default: () => [{ a: 'b' }],
     },
-    position: String,
+    position: {
+      type: String,
+      required: true,
+      validator: (value: string): boolean => ['top', 'left', 'center', 'right', 'bottom'].includes(value),
+    },
   },
   setup(props) {
     const selectedIndex = ref(0);
