@@ -1,8 +1,9 @@
 <template>
-  <div class="part">
-    <img :src="selectedPart.src" title="arm"/>
-    <button @click="selectPreviousPart()" class="prev-selector"></button>
-    <button @click="selectNextPart()" class="next-selector"></button>
+  <div class="part" :class="position">
+    <img :src="selectedPart.src" />
+    <button @click="selectPreviousPart" class="prev-selector"></button>
+    <button @click="selectNextPart" class="next-selector"></button>
+    <span class="sale" v-show="selectedPart.onSale">Sale!</span>
   </div>
 </template>
 
@@ -15,6 +16,7 @@ export default defineComponent({
       type: Array,
       default: () => [{ a: 'b' }],
     },
+    position: String,
   },
   setup(props) {
     const selectedIndex = ref(0);
