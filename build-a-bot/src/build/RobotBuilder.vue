@@ -8,16 +8,16 @@
           <span v-if="selectedRobot.head.onSale" class="sale">Sale!</span>
         </div> -->
         <div class="robot-name"></div>
-          <part-selector/>
+          <part-selector :parts="availableParts.heads"/>
         </div>
     </div>
     <div class="middle-row">
-      <part-selector/>
-      <part-selector/>
-      <part-selector/>
+      <part-selector :parts="availableParts.arms"/>
+      <part-selector :parts="availableParts.torsos"/>
+      <part-selector :parts="availableParts.arms"/>
     </div>
     <div class="bottom-row">
-      <part-selector/>
+      <part-selector :parts="availableParts.bases"/>
     </div>
     <div>
       <h1>Cart</h1>
@@ -54,7 +54,6 @@ export default defineComponent({
   },
   props: [],
   setup() {
-    const parts = availableParts;
     const cart: Ref<object[]> = ref([]);
 
     const selectedRobot = {
@@ -73,6 +72,7 @@ export default defineComponent({
     }
 
     return {
+      availableParts,
       selectedRobot,
       addToCart,
       cart,

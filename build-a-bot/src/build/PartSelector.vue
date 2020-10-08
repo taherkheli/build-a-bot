@@ -8,19 +8,22 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue';
-import availableParts from '@/data/parts';
 
 export default defineComponent({
-  props: [],
-  setup() {
-    const parts = availableParts.heads;
+  props: {
+    parts: {
+      type: Array,
+      default: () => [{ a: 'b' }],
+    },
+  },
+  setup(props) {
     const selectedIndex = ref(0);
 
-    const selectedPart = computed(() => parts[selectedIndex.value]);
+    const selectedPart = computed(() => props.parts[selectedIndex.value]);
 
     function selectNextPart() {
       selectedIndex.value += 1;
-      if (selectedIndex.value === parts.length) {
+      if (selectedIndex.value === props.parts.length) {
         selectedIndex.value = 0;
       }
     }
@@ -28,7 +31,7 @@ export default defineComponent({
     function selectPreviousPart() {
       selectedIndex.value -= 1;
       if (selectedIndex.value < 0) {
-        selectedIndex.value = parts.length - 1;
+        selectedIndex.value = props.parts.length - 1;
       }
     }
 
