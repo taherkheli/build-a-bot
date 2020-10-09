@@ -11,20 +11,16 @@
     </nav>
   </header>
   <main>
-    <RobotBuilder />
+    <router-view/>
   </main>
 </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import RobotBuilder from './build/RobotBuilder.vue';
 
 export default defineComponent({
   name: 'App',
-  components: {
-    RobotBuilder,
-  },
 });
 </script>
 
