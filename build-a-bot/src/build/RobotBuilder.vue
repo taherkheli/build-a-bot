@@ -1,6 +1,26 @@
 <template>
   <div class="content">
-    <button @click="addToCart" class="add-to-cart">Add to Cart</button>
+    <div class="preview">
+      <CollapsibleSection>
+      </CollapsibleSection>
+      <CollapsibleSection>
+      <div class="preview-content">
+        <div class="top-row">
+          <img :src="selectedRobot.head.src"/>
+        </div>
+        <div class="middle-row">
+          <img :src="selectedRobot.leftarm.src" class="rotate-left"/>
+          <img :src="selectedRobot.torso.src"/>
+          <img :src="selectedRobot.rightarm.src" class="rotate-right"/>
+        </div>
+        <div class="bottom-row">
+          <img :src="selectedRobot.base.src"/>
+        </div>
+      </div>
+      </CollapsibleSection>
+          <button @click="addToCart" class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
     <div class="top-row">
       <part-selector :parts="availableParts.heads"
                       position="top"
@@ -40,18 +60,19 @@
         </tbody>
       </table>
     </div>
-  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
 import availableParts from '@/data/parts';
+import CollapsibleSection from '@/shared/CollapsibleSection.vue';
 import PartSelector from './PartSelector.vue';
 
 export default defineComponent({
   name: 'RobotBuilder',
   components: {
     PartSelector,
+    CollapsibleSection,
   },
   props: [],
   setup() {
@@ -85,9 +106,10 @@ export default defineComponent({
 
     function addToCart() {
       const r = selectedRobot;
+      console.log(r); // in browser verify the robot is correctly recevied by parent by observing the object data => YES! works
       // const cost = r.head.cost + r.leftarm.cost + r.torso.cost + r.rightarm.cost + r.base.cost;
       // const c = r.head.cost;  // Property 'cost' does not exist on type '{}'.Vetur(2339
-      /* How the ***** do i retrieve the cost property here to do my calculation? */
+      /* How the ***** do i retrieve the cost property from all 5 parts objects here to do my calculation? */
       const cost = 120;
       cart.value.push({ r, cost });
     }
@@ -130,8 +152,7 @@ export default defineComponent({
 }
 .add-to-cart{
   position: absolute;
-  right: 30px;
-  width: 220px;
+  width: 210px;
   padding: 3px;
   font-size: 16px;
 }
@@ -145,5 +166,26 @@ td, th {
 }
 .sale-border{
   border: 3px solid red;
+}
+.preview {
+  position: absolute;
+  top: -20px;
+  right: 0;
+  width: 210px;
+  height: 210px;
+  padding: 5px;
+}
+.preview-content {
+  border: 1px solid #999;
+}
+.preview img {
+  width: 50px;
+  height: 50px;
+}
+.rotate-right {
+  transform: rotate(90deg);
+}
+.rotate-left {
+  transform: rotate(-90deg);
 }
 </style>
