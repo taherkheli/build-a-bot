@@ -1,9 +1,9 @@
-import MyPartInterface from '@/data/Part';
+import Part from '@/data/Part';
 
 // here we use webpack's require.context to make webpack aware of the image url
 const images = require.context('./images', true, /\.png$/);
 
-const heads: MyPartInterface[] = [
+const heads: Part[] = [
   {
     id: 1,
     description: 'A robot head with an unusually large eye and teloscpic neck -- excellent for exploring high spaces.',
@@ -49,7 +49,7 @@ const heads: MyPartInterface[] = [
   },
 ];
 
-const arms: MyPartInterface[] = [
+const arms: Part[] = [
   {
     id: 1,
     description: 'An articulated arm with a claw -- great for reaching around corners or working in tight spaces.',
@@ -93,7 +93,7 @@ const arms: MyPartInterface[] = [
   },
 ];
 
-const torsos: MyPartInterface[] = [
+const torsos: Part[] = [
   {
     id: 1,
     description: 'A torso that can bend slightly at the waist and equiped with a heat guage.',
@@ -121,7 +121,7 @@ const torsos: MyPartInterface[] = [
   },
 ];
 
-const bases: MyPartInterface[] = [
+const bases: Part[] = [
   {
     id: 1,
     description: 'A two wheeled base with an accelerometer for stability.',
@@ -164,10 +164,10 @@ const bases: MyPartInterface[] = [
   },
 ];
 export interface Data{
-  heads: MyPartInterface[];
-  arms: MyPartInterface[];
-  torsos: MyPartInterface[];
-  bases: MyPartInterface[];
+  heads: Part[];
+  arms: Part[];
+  torsos: Part[];
+  bases: Part[];
 }
 const availableParts: Data = {
   heads, arms, torsos, bases,

@@ -67,7 +67,7 @@ import {
   defineComponent, reactive, ref, Ref,
 } from 'vue';
 import CollapsibleSection from '@/shared/CollapsibleSection.vue';
-import availableParts from '@/data/MyParts';
+import availableParts from '@/data/Data';
 import Robot from '@/data/Robot';
 import Part from '@/data/Part';
 import PartSelector from './PartSelector.vue';
