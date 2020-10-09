@@ -9,14 +9,15 @@
 
 <script lang="ts">
 import {
-  defineComponent, onMounted, computed, ref,
+  defineComponent, onMounted, computed, ref, PropType,
 } from 'vue';
+import Part from '@/data/Part';
 
 export default defineComponent({
   props: {
     parts: {
-      type: Array,
-      default: () => [{ a: 'b' }],
+      type: Array as PropType<Part[]>,
+      default: () => [{ a: 'b' }], // only to avoid a linting error
     },
     position: {
       type: String,
@@ -34,6 +35,8 @@ export default defineComponent({
     }
 
     function selectNextPart() {
+      console.log(props); // this shows that the props
+      // are not being passed on from the parent component
       selectedIndex.value += 1;
       if (selectedIndex.value === props.parts.length) {
         selectedIndex.value = 0;
