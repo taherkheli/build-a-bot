@@ -8,7 +8,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue';
+import {
+  defineComponent, onMounted, computed, ref,
+} from 'vue';
 
 export default defineComponent({
   props: {
@@ -22,16 +24,21 @@ export default defineComponent({
       validator: (value: string): boolean => ['top', 'left', 'center', 'right', 'bottom'].includes(value),
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const selectedIndex = ref(0);
 
     const selectedPart = computed(() => props.parts[selectedIndex.value]);
+
+    function emitSelectedPart() {
+      emit('part-selected', selectedPart);
+    }
 
     function selectNextPart() {
       selectedIndex.value += 1;
       if (selectedIndex.value === props.parts.length) {
         selectedIndex.value = 0;
       }
+      emitSelectedPart();
     }
 
     function selectPreviousPart() {
@@ -39,7 +46,12 @@ export default defineComponent({
       if (selectedIndex.value < 0) {
         selectedIndex.value = props.parts.length - 1;
       }
+      emitSelectedPart();
     }
+
+    onMounted(() => {
+      emitSelectedPart();
+    });
 
     return {
       selectNextPart,

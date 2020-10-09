@@ -2,15 +2,25 @@
   <div class="content">
     <button @click="addToCart" class="add-to-cart">Add to Cart</button>
     <div class="top-row">
-      <part-selector :parts="availableParts.heads" position="top"/>
+      <part-selector :parts="availableParts.heads"
+                      position="top"
+                      @part-selected="part => selectedRobot.head=part"/>
     </div>
     <div class="middle-row">
-      <part-selector :parts="availableParts.arms" position="left"/>
-      <part-selector :parts="availableParts.torsos" position="center"/>
-      <part-selector :parts="availableParts.arms" position="right"/>
+      <part-selector :parts="availableParts.arms"
+                      position="left"
+                      @part-selected="part => selectedRobot.leftarm=part"/>
+      <part-selector :parts="availableParts.torsos"
+                      position="center"
+                      @part-selected="part => selectedRobot.torso=part"/>
+      <part-selector :parts="availableParts.arms"
+                      position="right"
+                      @part-selected="part => selectedRobot.rightarm=part"/>
     </div>
     <div class="bottom-row">
-      <part-selector :parts="availableParts.bases" position="bottom"/>
+      <part-selector :parts="availableParts.bases"
+                      position="bottom"
+                      @part-selected="part => selectedRobot.base=part"/>
     </div>
     <div>
       <h1>Cart</h1>
@@ -34,9 +44,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent, ref, Ref,
-} from 'vue';
+import { defineComponent, ref, Ref } from 'vue';
 import availableParts from '@/data/parts';
 import PartSelector from './PartSelector.vue';
 
@@ -49,6 +57,24 @@ export default defineComponent({
   setup() {
     const cart: Ref<object[]> = ref([]);
 
+    interface PartInterface {
+      id: number;
+      description: string;
+      title: string;
+      src: string;
+      type: string;
+      cost: number;
+      onSale?: boolean;
+    }
+
+    interface RobotInterface {
+      head: PartInterface;
+      torso: PartInterface;
+      base: PartInterface;
+      leftarm: PartInterface;
+      rightarm: PartInterface;
+    }
+
     const selectedRobot = {
       head: {},
       torso: {},
@@ -60,6 +86,8 @@ export default defineComponent({
     function addToCart() {
       const r = selectedRobot;
       // const cost = r.head.cost + r.leftarm.cost + r.torso.cost + r.rightarm.cost + r.base.cost;
+      // const c = r.head.cost;  // Property 'cost' does not exist on type '{}'.Vetur(2339
+      /* How the ***** do i retrieve the cost property here to do my calculation? */
       const cost = 120;
       cart.value.push({ r, cost });
     }
