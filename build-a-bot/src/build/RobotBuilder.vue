@@ -64,8 +64,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
-import availableParts from '@/data/parts';
 import CollapsibleSection from '@/shared/CollapsibleSection.vue';
+import availableParts from '@/data/MyParts';
+import MyRobotInterface from '@/data/MyRobotInterface';
+import MyPartInterface from '@/data/MyPartInterface';
 import PartSelector from './PartSelector.vue';
 
 export default defineComponent({
@@ -78,24 +80,6 @@ export default defineComponent({
   setup() {
     const cart: Ref<object[]> = ref([]);
 
-    interface PartInterface {
-      id: number;
-      description: string;
-      title: string;
-      src: string;
-      type: string;
-      cost: number;
-      onSale?: boolean;
-    }
-
-    interface RobotInterface {
-      head: PartInterface;
-      torso: PartInterface;
-      base: PartInterface;
-      leftarm: PartInterface;
-      rightarm: PartInterface;
-    }
-
     const selectedRobot = {
       head: {},
       torso: {},
@@ -106,7 +90,7 @@ export default defineComponent({
 
     function addToCart() {
       const r = selectedRobot;
-      console.log(r); // in browser verify the robot is correctly recevied by parent by
+      console.log(availableParts); // in browser verify the robot is correctly recevied by parent by
       // observing the object data => YES! works
       // const cost = r.head.cost + r.leftarm.cost + r.torso.cost + r.rightarm.cost + r.base.cost;
       // const c = r.head.cost;  // Property 'cost' does not exist on type '{}'.Vetur(2339
