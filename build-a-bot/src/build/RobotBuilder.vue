@@ -22,23 +22,23 @@
       </div>
     </div>
     <div class="top-row">
-      <part-selector :parts="availableParts.heads"
+      <PartSelector :parts="availableParts.heads"
                       position="top"
                       @part-selected="part => selectedRobot.head=part"/>
     </div>
     <div class="middle-row">
-      <part-selector :parts="availableParts.arms"
+      <PartSelector :parts="availableParts.arms"
                       position="left"
                       @part-selected="part => selectedRobot.leftarm=part"/>
-      <part-selector :parts="availableParts.torsos"
+      <PartSelector :parts="availableParts.torsos"
                       position="center"
                       @part-selected="part => selectedRobot.torso=part"/>
-      <part-selector :parts="availableParts.arms"
+      <PartSelector :parts="availableParts.arms"
                       position="right"
                       @part-selected="part => selectedRobot.rightarm=part"/>
     </div>
     <div class="bottom-row">
-      <part-selector :parts="availableParts.bases"
+      <PartSelector :parts="availableParts.bases"
                       position="bottom"
                       @part-selected="part => selectedRobot.base=part"/>
     </div>
@@ -54,7 +54,7 @@
         </thead>
         <tbody>
           <tr v-for="(robot, index) in cart" :key="index">
-            <td>{{ robot.r.head.title }}</td>
+            <td>{{ robot.head.title }}</td>
             <td class="cost">{{robot.cost}}</td>
           </tr>
         </tbody>
@@ -63,13 +63,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import {
+  defineComponent, reactive, ref, Ref,
+} from 'vue';
 import CollapsibleSection from '@/shared/CollapsibleSection.vue';
 import availableParts from '@/data/MyParts';
-import MyRobotInterface from '@/data/MyRobotInterface';
-import MyPartInterface from '@/data/MyPartInterface';
+import Robot from '@/data/Robot';
+import Part from '@/data/Part';
 import PartSelector from './PartSelector.vue';
 
+interface Cart extends Robot {
+  cost: number;
+}
 export default defineComponent({
   name: 'RobotBuilder',
   components: {
@@ -78,26 +83,30 @@ export default defineComponent({
   },
   props: [],
   setup() {
-    const cart: Ref<object[]> = ref([]);
+    const cart: Ref<Cart[]> = ref([]);
 
-    const selectedRobot = {
-      head: {},
-      torso: {},
-      base: {},
-      leftarm: {},
-      rightarm: {},
-    };
+    const defaultPart = (): Part => ({
+      description: '',
+      title: '',
+      src: '',
+      type: '',
+      cost: 0,
+      id: 0,
+      onSale: false,
+    });
+
+    const selectedRobot: Robot = reactive({
+      head: defaultPart(),
+      torso: defaultPart(),
+      base: defaultPart(),
+      leftarm: defaultPart(),
+      rightarm: defaultPart(),
+    });
 
     function addToCart() {
-      const r = selectedRobot;
-      console.log(availableParts); // in browser verify the robot is correctly recevied by parent by
-      // observing the object data => YES! works
-      // const cost = r.head.cost + r.leftarm.cost + r.torso.cost + r.rightarm.cost + r.base.cost;
-      // const c = r.head.cost;  // Property 'cost' does not exist on type '{}'.Vetur(2339
-      /* How the ***** do i retrieve the cost property from all 5 parts
-      objects here to do my calculation? */
-      const cost = 120;
-      cart.value.push({ r, cost });
+      const cost = selectedRobot.head.cost + selectedRobot.torso.cost
+        + selectedRobot.base.cost + selectedRobot.leftarm.cost + selectedRobot.leftarm.cost;
+      cart.value.push({ ...selectedRobot, cost });
     }
 
     return {

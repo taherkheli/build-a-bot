@@ -11,12 +11,12 @@
 import {
   defineComponent, onMounted, computed, ref, PropType,
 } from 'vue';
-import MyPartInterface from '@/data/MyPartInterface';
+import Part from '@/data/Part';
 
 export default defineComponent({
   props: {
     parts: {
-      type: Array as PropType<MyPartInterface[]>,
+      type: Array as PropType<Part[]>,
       default: () => [{ a: 'b' }], // only to avoid a linting error
     },
     position: {

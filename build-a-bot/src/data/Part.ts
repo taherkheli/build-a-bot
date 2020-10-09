@@ -1,4 +1,4 @@
-interface MyPartInterface {
+export default interface Part {
   id: number;
   description: string;
   title: string;
@@ -6,6 +6,4 @@ interface MyPartInterface {
   type: string;
   cost: number;
   onSale?: boolean;
-}
-
-export default MyPartInterface;
+};

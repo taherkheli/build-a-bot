@@ -1,4 +1,4 @@
-import MyPartInterface from '@/data/MyPartInterface';
+import MyPartInterface from '@/data/Part';
 
 // here we use webpack's require.context to make webpack aware of the image url
 const images = require.context('./images', true, /\.png$/);
@@ -163,5 +163,13 @@ const bases: MyPartInterface[] = [
     cost: 700.5,
   },
 ];
-const myParts: MyPartInterface[][] = [heads, arms, torsos, bases];
-export default myParts;
+export interface Data{
+  heads: MyPartInterface[];
+  arms: MyPartInterface[];
+  torsos: MyPartInterface[];
+  bases: MyPartInterface[];
+}
+const availableParts: Data = {
+  heads, arms, torsos, bases,
+};
+export default availableParts;
