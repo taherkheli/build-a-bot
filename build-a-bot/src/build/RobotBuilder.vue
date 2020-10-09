@@ -106,10 +106,12 @@ export default defineComponent({
 
     function addToCart() {
       const r = selectedRobot;
-      console.log(r); // in browser verify the robot is correctly recevied by parent by observing the object data => YES! works
+      console.log(r); // in browser verify the robot is correctly recevied by parent by
+      // observing the object data => YES! works
       // const cost = r.head.cost + r.leftarm.cost + r.torso.cost + r.rightarm.cost + r.base.cost;
       // const c = r.head.cost;  // Property 'cost' does not exist on type '{}'.Vetur(2339
-      /* How the ***** do i retrieve the cost property from all 5 parts objects here to do my calculation? */
+      /* How the ***** do i retrieve the cost property from all 5 parts
+      objects here to do my calculation? */
       const cost = 120;
       cart.value.push({ r, cost });
     }
