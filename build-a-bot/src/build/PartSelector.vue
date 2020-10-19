@@ -1,6 +1,6 @@
 <template>
   <div class="part" :class="position">
-    <img :src="selectedPart.src" />
+    <img @click="showPartInfo" :src="selectedPart.src" />
     <button @click="selectPreviousPart" class="prev-selector"></button>
     <button @click="selectNextPart" class="next-selector"></button>
     <span class="sale" v-show="selectedPart.onSale">Sale!</span>
@@ -12,6 +12,7 @@ import {
   defineComponent, onMounted, computed, ref, PropType,
 } from 'vue';
 import Part from '@/data/Part';
+import router from '@/router';
 
 export default defineComponent({
   props: {
@@ -52,6 +53,10 @@ export default defineComponent({
       emitSelectedPart();
     }
 
+    function showPartInfo() {
+      router.push({ name: 'Parts' });
+    }
+
     onMounted(() => {
       emitSelectedPart();
     });
@@ -60,6 +65,7 @@ export default defineComponent({
       selectNextPart,
       selectPreviousPart,
       selectedPart,
+      showPartInfo,
     };
   },
 });
@@ -91,6 +97,7 @@ export default defineComponent({
 }
 .part img {
   width:165px;
+  cursor: pointer;
 }
 .top {
   border-bottom: none;
