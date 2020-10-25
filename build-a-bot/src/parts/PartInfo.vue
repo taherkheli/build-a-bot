@@ -21,13 +21,13 @@ export default defineComponent({
       validator: (value: string): boolean => ['heads', 'arms', 'torsos', 'bases'].includes(value),
     },
     id: {
-      type: String,
-      default: '0',
+      type: Number,
+      default: 0,
+      validator: (value: number): boolean => Number.isInteger(value),
     },
   },
   setup(props) {
     const part = computed(() => {
-      const idNum: number = +props.id;
       let parts: Part[] = availableParts.heads;
 
       // TODO: get rid of this nasty switch n figure out a way to do a simple
@@ -55,7 +55,7 @@ export default defineComponent({
         }
       }
 
-      return parts[idNum];
+      return parts[props.id];
     });
 
     return {
