@@ -77,6 +77,16 @@ interface Cart extends Robot {
 }
 export default defineComponent({
   name: 'RobotBuilder',
+  beforeRouteLeave(to, from, next) {
+    if (this.addedToCart) {
+      next(true);
+    } else {
+      /* eslint no-alert: 0 */
+      /* eslint no-restricted-globals: 0 */
+      const response = confirm('Nothin added to cart. Are you sure you want to leave?');
+      next(response);
+    }
+  },
   components: {
     PartSelector,
     CollapsibleSection,
@@ -84,6 +94,7 @@ export default defineComponent({
   props: [],
   setup() {
     const cart: Ref<Cart[]> = ref([]);
+    const addedToCart: Ref<boolean> = ref(false);
 
     const defaultPart = (): Part => ({
       description: '',
@@ -107,6 +118,7 @@ export default defineComponent({
       const cost = selectedRobot.head.cost + selectedRobot.torso.cost
         + selectedRobot.base.cost + selectedRobot.leftarm.cost + selectedRobot.leftarm.cost;
       cart.value.push({ ...selectedRobot, cost });
+      addedToCart.value = true;
     }
 
     return {
@@ -114,6 +126,7 @@ export default defineComponent({
       selectedRobot,
       addToCart,
       cart,
+      addedToCart,
     };
   },
 });
