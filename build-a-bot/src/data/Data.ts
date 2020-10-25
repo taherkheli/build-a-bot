@@ -168,6 +168,7 @@ export interface Data{
   arms: Part[];
   torsos: Part[];
   bases: Part[];
+  [partType: string]: Part[];
 }
 const availableParts: Data = {
   heads, arms, torsos, bases,

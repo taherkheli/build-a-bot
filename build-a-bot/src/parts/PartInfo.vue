@@ -27,36 +27,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const part = computed(() => {
-      let parts: Part[] = availableParts.heads;
-
-      // TODO: get rid of this nasty switch n figure out a way to do a simple
-      // {let parts: Part[] = availableParts[props.partType];}
-      switch (props.partType) {
-        case ('heads'): {
-          parts = availableParts.heads;
-          break;
-        }
-        case ('arms'): {
-          parts = availableParts.arms;
-          break;
-        }
-        case ('torsos'): {
-          parts = availableParts.torsos;
-          break;
-        }
-        case ('bases'): {
-          parts = availableParts.bases;
-          break;
-        }
-        default: {
-          parts = availableParts.heads;
-          break;
-        }
-      }
-
-      return parts[props.id];
-    });
+    const part = computed(() => (availableParts[props.partType][props.id]));
 
     return {
       part,
