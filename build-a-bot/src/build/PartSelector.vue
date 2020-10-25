@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import {
-  defineComponent, onMounted, computed, ref, PropType,
+  defineComponent, onMounted, computed, Ref, ref, PropType,
 } from 'vue';
 import Part from '@/data/Part';
 import router from '@/router';
@@ -27,17 +27,16 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const selectedIndex = ref(0);
+    const selectedIndex: Ref<number> = ref(0);
 
-    const selectedPart = computed(() => props.parts[selectedIndex.value]);
+    const selectedPart: Ref<Part> = computed(() => props.parts[selectedIndex.value]);
 
     function emitSelectedPart() {
       emit('part-selected', selectedPart);
     }
 
     function selectNextPart() {
-      console.log(props); // this shows that the props
-      // are not being passed on from the parent component
+      console.log(props);
       selectedIndex.value += 1;
       if (selectedIndex.value === props.parts.length) {
         selectedIndex.value = 0;
@@ -53,8 +52,16 @@ export default defineComponent({
       emitSelectedPart();
     }
 
+    // this can be removed by using :to and providing the same object in router-link.
+    // I tried but had trouble making it work. Moving on
     function showPartInfo() {
-      router.push({ name: 'Parts' });
+      router.push({
+        name: 'Parts',
+        params: {
+          id: selectedIndex.value.toString(),
+          partType: selectedPart.value.type,
+        },
+      });
     }
 
     onMounted(() => {
