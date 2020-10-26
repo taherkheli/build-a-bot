@@ -9,6 +9,11 @@ const store = createStore<State>({
       s.cart.push(robot);
     },
   },
+  getters: {
+    cartSaleItems(s: State): Cart[] {
+      return s.cart.filter((item) => item.head.onSale);
+    },
+  },
 });
 
 export default store;
