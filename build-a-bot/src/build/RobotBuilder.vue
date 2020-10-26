@@ -42,24 +42,6 @@
                       position="bottom"
                       @part-selected="part => selectedRobot.base=part"/>
     </div>
-    <div>
-      <h1>Cart</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Robot</th>
-            <th class="cost">
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(robot, index) in cart" :key="index">
-            <td>{{ robot.head.title }}</td>
-            <td class="cost">{{robot.cost}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
 </template>
 
 <script lang="ts">
@@ -70,11 +52,10 @@ import CollapsibleSection from '@/shared/CollapsibleSection.vue';
 import availableParts from '@/data/Data';
 import Robot from '@/data/Robot';
 import Part from '@/data/Part';
+import Cart from '@/data/Cart';
+import { useStore } from 'vuex';
 import PartSelector from './PartSelector.vue';
 
-interface Cart extends Robot {
-  cost: number;
-}
 export default defineComponent({
   name: 'RobotBuilder',
   beforeRouteLeave(to, from, next) {
@@ -93,8 +74,8 @@ export default defineComponent({
   },
   props: [],
   setup() {
-    const cart: Ref<Cart[]> = ref([]);
     const addedToCart: Ref<boolean> = ref(false);
+    const store = useStore();
 
     const defaultPart = (): Part => ({
       description: '',
@@ -117,7 +98,8 @@ export default defineComponent({
     function addToCart() {
       const cost = selectedRobot.head.cost + selectedRobot.torso.cost
         + selectedRobot.base.cost + selectedRobot.leftarm.cost + selectedRobot.leftarm.cost;
-      cart.value.push({ ...selectedRobot, cost });
+      const c: Cart = { ...selectedRobot, cost };
+      store.commit('addRobotToCart', c);
       addedToCart.value = true;
     }
 
@@ -125,7 +107,6 @@ export default defineComponent({
       availableParts,
       selectedRobot,
       addToCart,
-      cart,
       addedToCart,
     };
   },
@@ -163,14 +144,6 @@ export default defineComponent({
   width: 210px;
   padding: 3px;
   font-size: 16px;
-}
-td, th {
-  text-align: left;
-  padding: 5px;
-  padding-right: 20px;
-}
-.cost {
-  text-align: right;
 }
 .sale-border{
   border: 3px solid red;

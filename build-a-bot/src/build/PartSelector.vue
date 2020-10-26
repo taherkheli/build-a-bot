@@ -28,7 +28,6 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const selectedIndex: Ref<number> = ref(0);
-
     const selectedPart: Ref<Part> = computed(() => props.parts[selectedIndex.value]);
 
     function emitSelectedPart() {
