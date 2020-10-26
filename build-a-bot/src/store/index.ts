@@ -6,7 +6,7 @@ const store = createStore<State>({
   state,
   mutations: {
     addRobotToCart(s: State, robot: Cart) {
-      state.cart.push(robot);
+      s.cart.push(robot);
     },
   },
 });
