@@ -14,6 +14,14 @@
             Build
           </router-link>
         </li>
+        <li class="nav-item cart">
+          <router-link class="nav-link" :to="{ name: 'Cart'}">
+            Cart
+          </router-link>
+          <div class="cart-items">
+            {{ count }}
+          </div>
+        </li>
       </ul>
     </nav>
   </header>
@@ -30,10 +38,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, Ref, computed } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'App',
+  setup() {
+    const store = useStore();
+    const count: Ref<number> = computed(() => store.state.cart.length);
+
+    return {
+      count,
+    };
+  },
 });
 </script>
 
@@ -69,6 +86,11 @@ ul {
   font-size: 22px;
   border-right: 1px solid #bbb;
 }
+.nav-item.cart {
+  position: relative;
+  margin-left: auto;
+  border-right: none;
+}
 .logo {
   vertical-align: middle;
   height: 30px;
@@ -90,5 +112,16 @@ ul {
   background-color: #aaa;
   width: 100px;
   min-height: 300px;
+}
+.cart-items {
+  position: absolute;
+  top: -5px;
+  right: -9px;
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 100px;
+  background-color: mediumseagreen;
 }
 </style>
