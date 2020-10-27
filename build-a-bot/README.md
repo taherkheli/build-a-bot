@@ -1,4 +1,5 @@
 # build-a-bot
+Following a pluralsight course about Vue but using Vue3 instead
 
 ## Project setup
 ```
