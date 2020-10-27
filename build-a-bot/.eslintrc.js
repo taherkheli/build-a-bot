@@ -15,5 +15,6 @@ module.exports = {
     'linebreak-style': ['error', (require('os').EOL === '\r\n' ? 'windows' : 'unix')],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-param-reassign': 0,
   },
 };
