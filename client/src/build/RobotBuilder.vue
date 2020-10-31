@@ -54,7 +54,6 @@ import Part from '@/data/Part';
 import Cart from '@/data/Cart';
 import { useStore } from 'vuex';
 import Data from '@/data/Data';
-import MutationTypes from '@/store/mutations';
 import ActionTypes from '@/store/actions';
 import PartSelector from './PartSelector.vue';
 
@@ -105,7 +104,7 @@ export default defineComponent({
       const cost = selectedRobot.head.cost + selectedRobot.torso.cost
         + selectedRobot.base.cost + selectedRobot.leftarm.cost + selectedRobot.leftarm.cost;
       const c: Cart = { ...selectedRobot, cost };
-      store.commit(MutationTypes.ADD_ROBOT_TO_CART, c);
+      store.dispatch(ActionTypes.AddRobotToServer, c);
       addedToCart.value = true;
     }
 
