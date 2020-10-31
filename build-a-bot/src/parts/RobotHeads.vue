@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="loaded">
     <h2>Heads</h2>
     The head is where the brain of your robot will reside. Heads have
     different capabilities so be sure to choose the one that fits your needs.
@@ -11,13 +11,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import availableParts from '@/data/Data';
+import {
+  defineComponent, Ref, computed,
+} from 'vue';
+import Part from '@/data/Part';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'RobotHeads',
   setup() {
-    return { heads: availableParts.heads };
+    const store = useStore();
+    store.dispatch('getParts');
+
+    const loaded: Ref<boolean> = computed(() => store.state.loaded);
+    const heads: Ref<Part[]> = computed(() => store.state.data.heads);
+
+    return {
+      loaded,
+      heads,
+    };
   },
 });
 </script>

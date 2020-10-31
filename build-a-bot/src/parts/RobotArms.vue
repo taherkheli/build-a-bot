@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="loaded">
     <h2>Arms</h2>
     The arms are how your robot will interact with the world.
     They come in a variety of shapes and functions.
@@ -11,13 +11,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import availableParts from '@/data/Data';
+import {
+  defineComponent, Ref, computed,
+} from 'vue';
+import Part from '@/data/Part';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'RobotArms',
   setup() {
-    return { arms: availableParts.arms };
+    const store = useStore();
+    store.dispatch('getParts');
+
+    const loaded: Ref<boolean> = computed(() => store.state.loaded);
+    const arms: Ref<Part[]> = computed(() => store.state.data.arms);
+
+    return {
+      loaded,
+      arms,
+    };
   },
 });
 </script>

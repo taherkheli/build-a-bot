@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="loaded">
     <h2>Bases</h2>
     The Base is critical to the mobility of your robot. Be
     sure to choose a base that will work well with the terrain
@@ -12,13 +12,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import availableParts from '@/data/Data';
+import {
+  defineComponent, Ref, computed,
+} from 'vue';
+import Part from '@/data/Part';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'RobotBases',
   setup() {
-    return { bases: availableParts.bases };
+    const store = useStore();
+    store.dispatch('getParts');
+
+    const loaded: Ref<boolean> = computed(() => store.state.loaded);
+    const bases: Ref<Part[]> = computed(() => store.state.data.bases);
+
+    return {
+      loaded,
+      bases,
+    };
   },
 });
 </script>

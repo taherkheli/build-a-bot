@@ -9,8 +9,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
-import availableParts from '@/data/Data';
-import Part from '@/data/Part';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'PartInfo',
@@ -21,13 +20,15 @@ export default defineComponent({
       validator: (value: string): boolean => ['heads', 'arms', 'torsos', 'bases'].includes(value),
     },
     id: {
-      type: Number,
+      type: Number, // TODO: this is passed in as string not number. handle it
       default: 0,
       validator: (value: number): boolean => Number.isInteger(value),
     },
   },
   setup(props) {
-    const part = computed(() => (availableParts[props.partType][props.id]));
+    const store = useStore();
+    store.dispatch('getParts');
+    const part = computed(() => (store.state.data[props.partType][props.id]));
 
     return {
       part,

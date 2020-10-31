@@ -53,7 +53,7 @@ import Robot from '@/data/Robot';
 import Part from '@/data/Part';
 import Cart from '@/data/Cart';
 import { useStore } from 'vuex';
-import { Data } from '@/data/Data';
+import Data from '@/data/Data';
 import PartSelector from './PartSelector.vue';
 
 export default defineComponent({

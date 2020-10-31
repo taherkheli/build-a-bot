@@ -1,5 +1,5 @@
 import Cart from '@/data/Cart';
-import { Data } from '@/data/Data';
+import Data from '@/data/Data';
 import Part from '@/data/Part';
 
 export type State = {
