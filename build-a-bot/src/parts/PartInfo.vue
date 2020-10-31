@@ -10,6 +10,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
+import ActionTypes from '@/store/actions';
 
 export default defineComponent({
   name: 'PartInfo',
@@ -27,7 +28,7 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    store.dispatch('getParts');
+    store.dispatch(ActionTypes.GetParts);
     const part = computed(() => (store.state.data[props.partType][props.id]));
 
     return {

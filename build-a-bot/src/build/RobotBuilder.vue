@@ -54,6 +54,8 @@ import Part from '@/data/Part';
 import Cart from '@/data/Cart';
 import { useStore } from 'vuex';
 import Data from '@/data/Data';
+import MutationTypes from '@/store/mutations';
+import ActionTypes from '@/store/actions';
 import PartSelector from './PartSelector.vue';
 
 export default defineComponent({
@@ -75,7 +77,7 @@ export default defineComponent({
   props: [],
   setup() {
     const store = useStore();
-    store.dispatch('getParts');
+    store.dispatch(ActionTypes.GetParts);
 
     const loaded: Ref<boolean> = computed(() => store.state.loaded);
     const availableParts: Ref<Data> = computed(() => store.state.data);
@@ -103,7 +105,7 @@ export default defineComponent({
       const cost = selectedRobot.head.cost + selectedRobot.torso.cost
         + selectedRobot.base.cost + selectedRobot.leftarm.cost + selectedRobot.leftarm.cost;
       const c: Cart = { ...selectedRobot, cost };
-      store.commit('addRobotToCart', c);
+      store.commit(MutationTypes.ADD_ROBOT_TO_CART, c);
       addedToCart.value = true;
     }
 

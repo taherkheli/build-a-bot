@@ -17,12 +17,13 @@ import {
 } from 'vue';
 import Part from '@/data/Part';
 import { useStore } from 'vuex';
+import ActionTypes from '@/store/actions';
 
 export default defineComponent({
   name: 'RobotBases',
   setup() {
     const store = useStore();
-    store.dispatch('getParts');
+    store.dispatch(ActionTypes.GetParts);
 
     const loaded: Ref<boolean> = computed(() => store.state.loaded);
     const bases: Ref<Part[]> = computed(() => store.state.data.bases);
