@@ -46,14 +46,14 @@
 
 <script lang="ts">
 import {
-  defineComponent, reactive, ref, Ref,
+  defineComponent, reactive, ref, Ref, computed,
 } from 'vue';
 import CollapsibleSection from '@/shared/CollapsibleSection.vue';
-import availableParts from '@/data/Data';
 import Robot from '@/data/Robot';
 import Part from '@/data/Part';
 import Cart from '@/data/Cart';
 import { useStore } from 'vuex';
+import { Data } from '@/data/Data';
 import PartSelector from './PartSelector.vue';
 
 export default defineComponent({
@@ -74,8 +74,11 @@ export default defineComponent({
   },
   props: [],
   setup() {
-    const addedToCart: Ref<boolean> = ref(false);
     const store = useStore();
+    store.dispatch('getParts');
+
+    const availableParts: Ref<Data> = computed(() => store.state.data);
+    const addedToCart: Ref<boolean> = ref(false);
 
     const defaultPart = (): Part => ({
       description: '',

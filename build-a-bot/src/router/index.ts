@@ -65,7 +65,6 @@ const routes = [
     path: '/cart',
     name: 'Cart',
     component: ShoppingCart,
-    props: true,
   },
 ];
 
