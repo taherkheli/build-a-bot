@@ -18,7 +18,7 @@ export default defineComponent({
   props: {
     parts: {
       type: Array as PropType<Part[]>,
-      default: () => [{ a: 'b' }], // only to avoid a linting error
+      default: () => [],
     },
     position: {
       type: String,
@@ -85,9 +85,6 @@ export default defineComponent({
   border: 3px solid #aaa;
 }
 .sale {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
   color: white;
   background-color: red;
   padding: 3px;
