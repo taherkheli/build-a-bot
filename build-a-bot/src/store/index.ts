@@ -1,7 +1,7 @@
 import { createStore } from 'vuex';
 import Cart from '@/data/Cart';
+import Data from '@/data/Data';
 import axios from 'axios';
-import { Data } from '@/data/Data';
 import { state, State } from './state';
 
 const store = createStore<State>({
@@ -12,6 +12,7 @@ const store = createStore<State>({
     },
     updateData(s: State, parts: Data) {
       s.data = parts;
+      s.loaded = true;
     },
   },
   actions: {
