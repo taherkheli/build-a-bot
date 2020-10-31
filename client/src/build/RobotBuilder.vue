@@ -104,7 +104,7 @@ export default defineComponent({
       const cost = selectedRobot.head.cost + selectedRobot.torso.cost
         + selectedRobot.base.cost + selectedRobot.leftarm.cost + selectedRobot.leftarm.cost;
       const c: Cart = { ...selectedRobot, cost };
-      store.dispatch(ActionTypes.AddRobotToServer, c);
+      store.dispatch(ActionTypes.SaveCart, c);
       addedToCart.value = true;
     }
 

@@ -6,7 +6,7 @@ import { State } from './state';
 
 enum ActionTypes {
   GetParts = 'GET_PARTS',
-  AddRobotToServer = 'ADD_ROBOT_TO_SERVER'
+  SaveCart = 'SAVE_CART'
 }
 
 export const actions: ActionTree<State, State> = {
@@ -18,7 +18,7 @@ export const actions: ActionTree<State, State> = {
       console.log(error);
     }
   },
-  async [ActionTypes.AddRobotToServer]({ commit, state }, robot: Cart) {
+  async [ActionTypes.SaveCart]({ commit, state }, robot: Cart) {
     try {
       const cart = [...state.cart, robot];
       const result = await axios.post('/api/cart', cart);
