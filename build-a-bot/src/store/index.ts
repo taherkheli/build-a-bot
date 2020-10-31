@@ -12,6 +12,7 @@ const store = createStore<State>({
     },
     updateData(s: State, parts: Data) {
       s.data = parts;
+      s.loaded = true;
     },
   },
   actions: {

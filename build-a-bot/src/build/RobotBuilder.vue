@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" v-if="loaded">
     <div class="preview">
       <CollapsibleSection>
       </CollapsibleSection>
@@ -20,7 +20,6 @@
       </CollapsibleSection>
           <button @click="addToCart" class="add-to-cart">Add to Cart</button>
       </div>
-    </div>
     <div class="top-row">
       <PartSelector :parts="availableParts.heads"
                       position="top"
@@ -42,6 +41,7 @@
                       position="bottom"
                       @part-selected="part => selectedRobot.base=part"/>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -77,6 +77,7 @@ export default defineComponent({
     const store = useStore();
     store.dispatch('getParts');
 
+    const loaded: Ref<boolean> = computed(() => store.state.loaded);
     const availableParts: Ref<Data> = computed(() => store.state.data);
     const addedToCart: Ref<boolean> = ref(false);
 
@@ -107,6 +108,7 @@ export default defineComponent({
     }
 
     return {
+      loaded,
       availableParts,
       selectedRobot,
       addToCart,

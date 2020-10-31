@@ -5,6 +5,7 @@ import Part from '@/data/Part';
 export type State = {
   cart: Cart[];
   data: Data;
+  loaded: boolean;
 }
 
 const heads: Part[] = [];
@@ -20,4 +21,5 @@ export const state: State = {
     torsos,
     bases,
   },
+  loaded: false,
 };
